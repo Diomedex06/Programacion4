@@ -3,7 +3,7 @@ import java.time.LocalDateTime;
 import java.time.LocalDate;
 
 
-class Periodico extends Recurso {
+public class Periodico extends Recurso {
     private LocalDate fechaPublicacion;
     private String editorial;
 

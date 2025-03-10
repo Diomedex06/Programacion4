@@ -1,7 +1,7 @@
 package sistemas.programacion4;
 import java.time.LocalDateTime;
 
-class Computador extends Recurso {
+public class Computador extends Recurso {
     private String marca;
     private String modelo;
     private String sistemaOperativo;
@@ -44,8 +44,4 @@ class Computador extends Recurso {
                "SistemaOperativo=" + sistemaOperativo + "\n" +
                "Tipo=" + tipo + "\n";
     }
-}
-
-enum TipoComputador {
-    PORTATIL, ESCRITORIO, TABLET;
 }

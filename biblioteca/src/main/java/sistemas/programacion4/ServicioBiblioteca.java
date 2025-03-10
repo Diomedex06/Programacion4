@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
-class ServicioBiblioteca {
+public class ServicioBiblioteca {
     private Collection<Recurso> recursos;
 
     public ServicioBiblioteca() {
