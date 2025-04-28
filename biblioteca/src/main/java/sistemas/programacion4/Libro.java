@@ -2,7 +2,7 @@ package sistemas.programacion4;
 import java.time.LocalDateTime;
 import java.time.Year;
 
-class Libro extends Recurso {
+public class Libro extends Recurso {
     private String autor;
     private String editorial;
     private Year anio;
