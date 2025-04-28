@@ -5,20 +5,31 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.stream.Collectors;
+import java.util.List;
 
+@Component
 class ServicioBiblioteca {
-    private Collection<Recurso> recursos;
 
-    public ServicioBiblioteca() {
-        this.recursos = new ArrayList<>();
+    private final LibroRepositorio libroRepositorio;
+    private final PeriodicoRepositorio periodicoRepositorio;
+    private final ComputadorRepositorio computadorRepositorio;
+
+    @Autowired
+    public ServicioBiblioteca(LibroRepositorio libroRepositorio, PeriodicoRepositorio periodicoRepositorio, ComputadorRepositorio computadorRepositorio) {
+        this.libroRepositorio = libroRepositorio;
+        this.periodicoRepositorio = periodicoRepositorio;
+        this.computadorRepositorio = computadorRepositorio;
     }
 
-    public void agregarPeriodico(Periodico periodico) {
+    public void agregarLibro (Libro libro) {
+        libroRepositorio.agregar(libro);
+    }
+
+    public void agregarPeriodico (Periodico periodico) {
         periodicoRepositorio.agregar(periodico);
     }
 
-    public void agregarComputador(Computador computador) {
+    public void agregarComputador (Computador computador) {
         computadorRepositorio.agregar(computador);
     }
 
