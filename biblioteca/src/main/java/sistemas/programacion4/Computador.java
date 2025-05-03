@@ -1,44 +1,79 @@
 package sistemas.programacion4;
 import java.time.LocalDateTime;
 
-public class Computador extends Recurso {
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+@Table(name = "COMPUTADOR")
+public class Computador implements Recurso {
+    @Id
+    private Integer id;
+    private String nombre;
+    @Column ("FECHA_INGRESO")
+    private String fechaIngreso;
+    private boolean activo;
+    
     private String marca;
     private String modelo;
+    @Column ("SISTEMA_OPERATIVO")
     private String sistemaOperativo;
     private TipoComputador tipo;
 
-    public Computador(String nombre, LocalDateTime fechaIngreso, boolean activo, String marca, String modelo, String sistemaOperativo, TipoComputador tipo) {
-        super(nombre, fechaIngreso, activo);
+    public Computador() {}
+
+    public Computador(Integer id, String nombre, String fechaIngreso, boolean activo, String marca, String modelo, String sistemaOperativo, TipoComputador tipo) {
+        this.id = id;
+        this.nombre = nombre;
+        this.fechaIngreso = fechaIngreso;
+        this.activo = activo;
         this.marca = marca;
         this.modelo = modelo;
         this.sistemaOperativo = sistemaOperativo;
         this.tipo = tipo;
     }
 
-    public String getMarca() {
-        return marca;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public String getSistemaOperativo() {
-        return sistemaOperativo;
-    }
-
-    public TipoComputador getTipo() {
-        return tipo;
-    }
-
     @Override
-    public boolean coincideConCriterio(String criterio) {
-        return super.coincideConCriterio(criterio) || marca.contains(criterio) || modelo.contains(criterio) || sistemaOperativo.contains(criterio) || tipo.name().contains(criterio);
+    public Integer getId() { 
+        return id; 
+    }
+    @Override
+    public String getNombre() { 
+        return nombre; 
+    }
+    @Override
+    public String getFechaIngreso() { 
+        return fechaIngreso; 
+    }
+    @Override
+    public boolean isActivo() { 
+        return activo; 
+    }
+    @Override
+    public void darDeBaja() { 
+        this.activo = false; 
+    }
+
+    public String getMarca() { 
+        return marca; 
+    }
+    public String getModelo() { 
+        return modelo; 
+    }
+    public String getSistemaOperativo() { 
+        return sistemaOperativo; 
+    }
+    public TipoComputador getTipo() { 
+        return tipo; 
     }
 
     @Override
     public String toString() {
-        return super.toString() +
+        return "COMPUTADOR\n" +
+               "Id=" + id + "\n" +
+               "Nombre=" + nombre + "\n" +
+               "FechaIngreso=" + fechaIngreso + "\n" +
+               "Activo=" + activo + "\n" +
                "Marca=" + marca + "\n" +
                "Modelo=" + modelo + "\n" +
                "SistemaOperativo=" + sistemaOperativo + "\n" +

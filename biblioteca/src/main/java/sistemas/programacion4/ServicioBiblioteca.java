@@ -2,13 +2,12 @@ package sistemas.programacion4;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 
 @Component
-class ServicioBiblioteca {
+public class ServicioBiblioteca {
 
     private final LibroRepositorio libroRepositorio;
     private final PeriodicoRepositorio periodicoRepositorio;
@@ -20,54 +19,51 @@ class ServicioBiblioteca {
         this.periodicoRepositorio = periodicoRepositorio;
         this.computadorRepositorio = computadorRepositorio;
     }
-
-    public void agregarLibro (Libro libro) {
-        libroRepositorio.agregar(libro);
+    
+    public void agregarLibro(Libro libro) {
+        libroRepositorio.save(libro);
     }
 
-    public void agregarPeriodico (Periodico periodico) {
-        periodicoRepositorio.agregar(periodico);
+    public void agregarPeriodico(Periodico periodico) {
+        periodicoRepositorio.save(periodico);
     }
 
-    public void agregarComputador (Computador computador) {
-        computadorRepositorio.agregar(computador);
+    public void agregarComputador(Computador computador) {
+        computadorRepositorio.save(computador);
     }
 
     public void quitarLibro(Libro libro) {
-        libroRepositorio.quitarRecurso(libro);
+        libroRepositorio.delete(libro);
     }
 
     public void quitarPeriodico(Periodico periodico) {
-        periodicoRepositorio.quitarRecurso(periodico);
+        periodicoRepositorio.delete(periodico);
     }
 
     public void quitarComputador(Computador computador) {
-        computadorRepositorio.quitarRecurso(computador);
+        computadorRepositorio.delete(computador);
     }
 
     public Collection<Libro> buscarLibros(String criterio) {
-        return libroRepositorio.buscarRecursos(criterio);
+        return libroRepositorio.findByCriteria(criterio);
     }
 
     public Collection<Periodico> buscarPeriodicos(String criterio) {
-        return periodicoRepositorio.buscarRecursos(criterio);
+        return periodicoRepositorio.findByCriteria(criterio);
     }
 
     public Collection<Computador> buscarComputadores(String criterio) {
-        return computadorRepositorio.buscarRecursos(criterio);
+        return computadorRepositorio.findByCriteria(criterio);
     }
 
     public Collection<Recurso> obtenerTodos() {
-        
-        Collection<Libro> libros = libroRepositorio.obtenerTodos();
-        Collection<Periodico> periodicos = periodicoRepositorio.obtenerTodos();
-        Collection<Computador> computadores = computadorRepositorio.obtenerTodos();
 
         List<Recurso> todosLosRecursos = new ArrayList<>();
-        todosLosRecursos.addAll(libros);
-        todosLosRecursos.addAll(periodicos);
-        todosLosRecursos.addAll(computadores);
-
+        
+        libroRepositorio.findAll().forEach(todosLosRecursos::add);
+        periodicoRepositorio.findAll().forEach(todosLosRecursos::add);
+        computadorRepositorio.findAll().forEach(todosLosRecursos::add);
+        
         return todosLosRecursos;
     }
 }
