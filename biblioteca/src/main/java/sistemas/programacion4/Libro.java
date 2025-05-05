@@ -1,6 +1,4 @@
 package sistemas.programacion4;
-import java.time.LocalDateTime;
-import java.time.Year;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;

@@ -1,11 +1,9 @@
 package sistemas.programacion4;
-import java.time.LocalDateTime;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.LocalDate;
 
 @Table ("PERIODICO")
 public class Periodico implements Recurso {

@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.Year;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -12,7 +11,6 @@ import java.util.stream.Stream;
 import javax.sql.DataSource;
 
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -29,17 +27,17 @@ public class Main {
             ServicioBiblioteca servicioBiblioteca = contexto.getBean(ServicioBiblioteca.class);
     
             // Agregar recursos
-            servicioBiblioteca.agregarLibro(new Libro(null, "Cien años de soledad", LocalDateTime.now().toString(), true, "Gabriel García Márquez", "Sudamericana", 1967));
-            servicioBiblioteca.agregarLibro(new Libro(null, "El principito", LocalDateTime.now().toString(), true, "Antoine de Saint-Exupéry", "Reynal & Hitchcock", 1943));
-            servicioBiblioteca.agregarLibro(new Libro(null, "1984", LocalDateTime.now().toString(), true, "George Orwell", "Secker & Warburg", 1949));
+            servicioBiblioteca.agregarRecurso(new Libro(null, "Cien años de soledad", LocalDateTime.now().toString(), true, "Gabriel García Márquez", "Sudamericana", 1967));
+            servicioBiblioteca.agregarRecurso(new Libro(null, "El principito", LocalDateTime.now().toString(), true, "Antoine de Saint-Exupéry", "Reynal & Hitchcock", 1943));
+            servicioBiblioteca.agregarRecurso(new Libro(null, "1984", LocalDateTime.now().toString(), true, "George Orwell", "Secker & Warburg", 1949));
 
-            servicioBiblioteca.agregarPeriodico(new Periodico(null, "El Tiempo", LocalDateTime.now().toString(), true, LocalDate.of(2024, 2, 23).toString(), "Prisa"));
-            servicioBiblioteca.agregarPeriodico(new Periodico(null, "The New York Times", LocalDateTime.now().toString(), true, LocalDate.of(2024, 2, 23).toString(), "The New York Times Company"));
-            servicioBiblioteca.agregarPeriodico(new Periodico(null, "El Espectador", LocalDateTime.now().toString(), true, LocalDate.of(2024, 2, 23).toString(), "Grupo Nación"));
+            servicioBiblioteca.agregarRecurso(new Periodico(null, "El Tiempo", LocalDateTime.now().toString(), true, LocalDate.of(2024, 2, 23).toString(), "Prisa"));
+            servicioBiblioteca.agregarRecurso(new Periodico(null, "The New York Times", LocalDateTime.now().toString(), true, LocalDate.of(2024, 2, 23).toString(), "The New York Times Company"));
+            servicioBiblioteca.agregarRecurso(new Periodico(null, "El Espectador", LocalDateTime.now().toString(), true, LocalDate.of(2024, 2, 23).toString(), "Grupo Nación"));
 
-            servicioBiblioteca.agregarComputador(new Computador(null, "Laptop Dell", LocalDateTime.now().toString(), true, "Dell", "XPS 13", "Windows 11", TipoComputador.PORTATIL));
-            servicioBiblioteca.agregarComputador(new Computador(null, "iMac", LocalDateTime.now().toString(), true, "Apple", "iMac 24", "macOS Ventura", TipoComputador.ESCRITORIO));
-            servicioBiblioteca.agregarComputador(new Computador(null, "Samsung Galaxy Tab", LocalDateTime.now().toString(), true, "Samsung", "Galaxy Tab S9", "Android", TipoComputador.TABLET));
+            servicioBiblioteca.agregarRecurso(new Computador(null, "Laptop Dell", LocalDateTime.now().toString(), true, "Dell", "XPS 13", "Windows 11", TipoComputador.PORTATIL));
+            servicioBiblioteca.agregarRecurso(new Computador(null, "iMac", LocalDateTime.now().toString(), true, "Apple", "iMac 24", "macOS Ventura", TipoComputador.ESCRITORIO));
+            servicioBiblioteca.agregarRecurso(new Computador(null, "Samsung Galaxy Tab", LocalDateTime.now().toString(), true, "Samsung", "Galaxy Tab S9", "Android", TipoComputador.TABLET));
 
 
             // Mostrar todos los recursos
@@ -50,10 +48,10 @@ public class Main {
             String criterio = "el";
             System.out.println("\n Recursos encontrados con criterio '" + criterio + "' \n");
             List<Recurso> resultados = Stream.concat(
-                servicioBiblioteca.buscarLibros(criterio).stream(),
+                servicioBiblioteca.buscaRecurso(criterio).stream(),
                 Stream.concat(
-                    servicioBiblioteca.buscarPeriodicos(criterio).stream(),
-                    servicioBiblioteca.buscarComputadores(criterio).stream()
+                    servicioBiblioteca.buscaRecurso(criterio).stream(),
+                    servicioBiblioteca.buscaRecurso(criterio).stream()
                 )
             ).collect(Collectors.toList());
             
@@ -63,11 +61,11 @@ public class Main {
             if (!resultados.isEmpty()) {
                 Recurso primerRecurso = resultados.get(0);
                 if (primerRecurso instanceof Libro) {
-                    servicioBiblioteca.quitarLibro((Libro) primerRecurso);
+                    servicioBiblioteca.quitarRecurso((Libro) primerRecurso);
                 } else if (primerRecurso instanceof Periodico) {
-                    servicioBiblioteca.quitarPeriodico((Periodico) primerRecurso);
+                    servicioBiblioteca.quitarRecurso((Periodico) primerRecurso);
                 } else if (primerRecurso instanceof Computador) {
-                    servicioBiblioteca.quitarComputador((Computador) primerRecurso);
+                    servicioBiblioteca.quitarRecurso((Computador) primerRecurso);
                 }
                 System.out.println("\n Recurso eliminado: \n");
                 System.out.println(primerRecurso);
