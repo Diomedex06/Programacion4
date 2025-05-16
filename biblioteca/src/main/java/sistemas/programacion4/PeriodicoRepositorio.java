@@ -1,40 +1,23 @@
 package sistemas.programacion4;
 
-import java.util.ArrayList;
+import org.springframework.data.jdbc.repository.query.Query;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
+
 import java.util.Collection;
-import java.util.stream.Collectors;
 
-import org.springframework.stereotype.Component;
+@Repository
+public interface PeriodicoRepositorio extends CrudRepository<Periodico, Integer> {
 
-@Component
-public class PeriodicoRepositorio implements RecursoRepositorios <Periodico> {
-
-    private Collection<Periodico> periodicos;
-
-	public PeriodicoRepositorio() {
-        this.periodicos = new ArrayList<>();
-    }
-
-	@Override
-	public void agregar(Periodico recurso) {
-        periodicos.add(recurso);
-	}
-
-	@Override
-	public void quitarRecurso(Periodico recurso) {
-		periodicos.remove(recurso);
-	}
-
-	@Override
-	public Collection<Periodico> buscarRecursos(String criterio) {
-		return periodicos.stream()
-                .filter(r -> r.coincideConCriterio(criterio))
-                .collect(Collectors.toList());
-	}
-
-	@Override
-	public Collection<Periodico> obtenerTodos() {
-		return new ArrayList<>(periodicos);
-	}
-    
+    @Query("""
+        SELECT * FROM periodico 
+        WHERE 
+            nombre LIKE CONCAT('%', :criterio, '%') OR
+            editorial LIKE CONCAT('%', :criterio, '%') OR
+            FECHA_INGRESO LIKE CONCAT('%', :criterio, '%') OR
+            CAST(FECHA_PUBLICACION AS VARCHAR) LIKE CONCAT('%', :criterio, '%') OR
+            CAST(activo AS VARCHAR) LIKE CONCAT('%', :criterio, '%')
+        """)
+    Collection<Periodico> findByCriteria(@Param("criterio") String criterio);
 }
