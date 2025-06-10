@@ -26,6 +26,12 @@
         </dependency>
 
         <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <version>3.4.4</version>
+        </dependency>
+
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jdbc</artifactId>
             <version>3.4.4</version>
@@ -52,6 +58,7 @@
     </dependencies>
 
     
+    
 
 
     <build>
@@ -70,6 +77,14 @@
                     </archive>
                 </configuration>
             </plugin>
+
+            <plugins>
+                <plugin>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-maven-plugin</artifactId>
+                </plugin>
+            </plugins>
+
         </plugins>
     </build>
 

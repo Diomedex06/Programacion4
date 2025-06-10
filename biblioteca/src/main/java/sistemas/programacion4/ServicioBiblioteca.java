@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.ArrayList;
 
 @Component
@@ -54,18 +55,6 @@ public class ServicioBiblioteca {
         return recursoEncontrado;
     }
 
-    // public Collection<Libro> buscarLibros(String criterio) {
-    //     return libroRepositorio.findByCriteria(criterio);
-    // }
-
-    // public Collection<Periodico> buscarPeriodicos(String criterio) {
-    //     return periodicoRepositorio.findByCriteria(criterio);
-    // }
-
-    // public Collection<Computador> buscarComputadores(String criterio) {
-    //     return computadorRepositorio.findByCriteria(criterio);
-    // }
-
     public Collection<Recurso> obtenerTodos() {
 
         List<Recurso> todosLosRecursos = new ArrayList<>();
@@ -76,4 +65,35 @@ public class ServicioBiblioteca {
         
         return todosLosRecursos;
     }
+
+    public boolean quitarRecursoPorId(Integer id) {
+    
+        Optional<Recurso> recurso = obtenerRecursoPorId(id);
+        
+        if (recurso.isPresent()) {
+            
+            if (recurso.get() instanceof Libro) {
+                libroRepositorio.deleteById(id);
+            } else if (recurso.get() instanceof Periodico) {
+                periodicoRepositorio.deleteById(id);
+            } else if (recurso.get() instanceof Computador) {
+                computadorRepositorio.deleteById(id);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public Optional<Recurso> obtenerRecursoPorId(Integer id) {
+        
+        Optional<Libro> libro = libroRepositorio.findById(id);
+        if(libro.isPresent()) return libro.map(l -> (Recurso) l);
+        
+        Optional<Periodico> periodico = periodicoRepositorio.findById(id);
+        if(periodico.isPresent()) return periodico.map(p -> (Recurso) p);
+        
+        Optional<Computador> computador = computadorRepositorio.findById(id);
+        return computador.map(c -> (Recurso) c);
+    }
+    
 }

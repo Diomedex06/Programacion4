@@ -20,5 +20,5 @@ public interface LibroRepositorio extends CrudRepository<Libro, Integer> {
         CAST(anio AS VARCHAR) LIKE CONCAT('%', :criterio, '%') OR
         CAST(activo AS VARCHAR) LIKE CONCAT('%', :criterio, '%')
     """)
-Collection<Libro> findByCriteria(@Param("criterio") String criterio);
+    Collection<Libro> findByCriteria(@Param("criterio") String criterio);
 }
