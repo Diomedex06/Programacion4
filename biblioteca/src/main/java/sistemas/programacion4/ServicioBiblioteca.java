@@ -2,13 +2,12 @@ package sistemas.programacion4;
 
 import org.springframework.stereotype.Component;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.ArrayList;
 
 @Component
-class ServicioBiblioteca {
+public class ServicioBiblioteca {
 
     private final LibroRepositorio libroRepositorio;
     private final PeriodicoRepositorio periodicoRepositorio;
@@ -21,53 +20,60 @@ class ServicioBiblioteca {
         this.computadorRepositorio = computadorRepositorio;
     }
 
-    public void agregarLibro (Libro libro) {
-        libroRepositorio.agregar(libro);
+    public void agregarRecurso(Recurso recurso) {
+        if (recurso instanceof Libro) {
+            libroRepositorio.save((Libro) recurso);
+        } else if (recurso instanceof Periodico) {
+            periodicoRepositorio.save((Periodico) recurso);
+        } else if (recurso instanceof Computador) {
+            computadorRepositorio.save((Computador) recurso);
+        } else {
+            System.out.println("Tipo de recurso no soportado");
+        }
     }
 
-    public void agregarPeriodico (Periodico periodico) {
-        periodicoRepositorio.agregar(periodico);
+    public void quitarRecurso(Recurso recurso) {
+        if (recurso instanceof Libro) {
+            libroRepositorio.delete((Libro) recurso);
+        } else if (recurso instanceof Periodico) {
+            periodicoRepositorio.delete((Periodico) recurso);
+        } else if (recurso instanceof Computador) {
+            computadorRepositorio.delete((Computador) recurso);
+        } else {
+            System.out.println("Tipo de recurso no soportado");
+        }
     }
 
-    public void agregarComputador (Computador computador) {
-        computadorRepositorio.agregar(computador);
+    public Collection<Recurso> buscaRecurso(String criterio) {
+        List <Recurso> recursoEncontrado = new ArrayList<>();
+
+        recursoEncontrado.addAll(libroRepositorio.findByCriteria(criterio));
+        recursoEncontrado.addAll(periodicoRepositorio.findByCriteria(criterio));
+        recursoEncontrado.addAll(computadorRepositorio.findByCriteria(criterio));
+
+        return recursoEncontrado;
     }
 
-    public void quitarLibro(Libro libro) {
-        libroRepositorio.quitarRecurso(libro);
-    }
+    // public Collection<Libro> buscarLibros(String criterio) {
+    //     return libroRepositorio.findByCriteria(criterio);
+    // }
 
-    public void quitarPeriodico(Periodico periodico) {
-        periodicoRepositorio.quitarRecurso(periodico);
-    }
+    // public Collection<Periodico> buscarPeriodicos(String criterio) {
+    //     return periodicoRepositorio.findByCriteria(criterio);
+    // }
 
-    public void quitarComputador(Computador computador) {
-        computadorRepositorio.quitarRecurso(computador);
-    }
-
-    public Collection<Libro> buscarLibros(String criterio) {
-        return libroRepositorio.buscarRecursos(criterio);
-    }
-
-    public Collection<Periodico> buscarPeriodicos(String criterio) {
-        return periodicoRepositorio.buscarRecursos(criterio);
-    }
-
-    public Collection<Computador> buscarComputadores(String criterio) {
-        return computadorRepositorio.buscarRecursos(criterio);
-    }
+    // public Collection<Computador> buscarComputadores(String criterio) {
+    //     return computadorRepositorio.findByCriteria(criterio);
+    // }
 
     public Collection<Recurso> obtenerTodos() {
-        
-        Collection<Libro> libros = libroRepositorio.obtenerTodos();
-        Collection<Periodico> periodicos = periodicoRepositorio.obtenerTodos();
-        Collection<Computador> computadores = computadorRepositorio.obtenerTodos();
 
         List<Recurso> todosLosRecursos = new ArrayList<>();
-        todosLosRecursos.addAll(libros);
-        todosLosRecursos.addAll(periodicos);
-        todosLosRecursos.addAll(computadores);
-
+        
+        libroRepositorio.findAll().forEach(todosLosRecursos::add);
+        periodicoRepositorio.findAll().forEach(todosLosRecursos::add);
+        computadorRepositorio.findAll().forEach(todosLosRecursos::add);
+        
         return todosLosRecursos;
     }
 }

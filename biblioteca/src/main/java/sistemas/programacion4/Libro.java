@@ -1,42 +1,73 @@
 package sistemas.programacion4;
-import java.time.LocalDateTime;
-import java.time.Year;
 
-public class Libro extends Recurso {
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+@Table(name = "LIBRO")
+public class Libro implements Recurso {
+    @Id
+    private Integer id;
+    private String nombre;
+    @Column("FECHA_INGRESO")
+    private String fechaIngreso;
+    private boolean activo;
     private String autor;
     private String editorial;
-    private Year anio;
+    private int anio;
 
-    public Libro(String nombre, LocalDateTime fechaIngreso, boolean activo, String autor, String editorial, Year anio) {
-        super(nombre, fechaIngreso, activo);
+    public Libro() {}
+
+    public Libro(Integer id, String nombre, String fechaIngreso, boolean activo, String autor, String editorial, int anio) {
+        this.id = id;
+        this.nombre = nombre;
+        this.fechaIngreso = fechaIngreso;
+        this.activo = activo;
         this.autor = autor;
         this.editorial = editorial;
         this.anio = anio;
     }
 
-    public String getAutor() {
-        return autor;
-    }
-
-    public String getEditorial() {
-        return editorial;
-    }
-
-    public Year getAnio() {
-        return anio;
-    }
-
     @Override
-    public boolean coincideConCriterio(String criterio) {
-        return super.coincideConCriterio(criterio) || autor.contains(criterio) || editorial.contains(criterio);
+    public Integer getId() {
+         return id; 
+    }
+    @Override
+    public String getNombre() { 
+        return nombre; 
+    }
+    @Override
+    public String getFechaIngreso() { 
+        return fechaIngreso; 
+    }
+    @Override
+    public boolean isActivo() { 
+        return activo; 
+    }
+    @Override
+    public void darDeBaja() { 
+        this.activo = false; 
+    }
+
+    public String getAutor() { 
+        return autor; 
+    }
+    public String getEditorial() { 
+        return editorial; 
+    }
+    public int getAnio() { 
+        return anio; 
     }
 
     @Override
     public String toString() {
-        return super.toString() +
+        return "LIBRO\n" +
+               "Id=" + id + "\n" +
+               "Nombre=" + nombre + "\n" +
+               "FechaIngreso=" + fechaIngreso + "\n" +
+               "Activo=" + activo + "\n" +
                "Autor=" + autor + "\n" +
                "Editorial=" + editorial + "\n" +
                "Año=" + anio + "\n";
     }
 }
-
